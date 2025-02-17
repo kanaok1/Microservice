@@ -1,22 +1,23 @@
-package ru.itmentor.crud.controller;
+package ru.itmentor.crud.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.itmentor.crud.controller.api.UserPanelController;
 import ru.itmentor.crud.dto.UserDTO;
 import ru.itmentor.crud.model.User;
 import ru.itmentor.crud.service.UserService;
 
 @Controller
-@RequestMapping("/users")
-public class UserControllerImpl implements UserController {
+@RequestMapping("/admin")
+public class UserPanelControllerImpl implements UserPanelController {
 
     private final UserService userService;
-    private static final String RELOAD = "redirect:/users";
+    private static final String RELOAD = "redirect:/admin";
 
     @Autowired
-    public UserControllerImpl(UserService userService) {
+    public UserPanelControllerImpl(UserService userService) {
         this.userService = userService;
     }
 
@@ -25,7 +26,7 @@ public class UserControllerImpl implements UserController {
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
         model.addAttribute("userDTO", new UserDTO());
-        return "users";
+        return "admin";
     }
 
     @GetMapping("/search")
@@ -56,5 +57,4 @@ public class UserControllerImpl implements UserController {
         userService.updateUser(userId, userDTO);
         return RELOAD;
     }
-
 }

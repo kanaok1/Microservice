@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        .search-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-section input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .search-section button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        .search-section button:hover {
+            background-color: #0056b3;
+        }
+        .user-details {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .user-details h3 {
+            margin-bottom: 10px;
+        }
+        .user-details p {
+            margin: 5px 0;
+        }
+        form {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        form h3 {
+            margin-bottom: 20px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        form .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        form .radio-group label {
+            margin-right: 10px;
+        }
+        form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Users Management</h1>
+
+<div class="button-group">
+    <button onclick="document.getElementById('createForm').style.display='block'">
+        Create New User
+    </button>
+    <button onclick="document.getElementById('deleteForm').style.display='block'">
+        Delete User
+    </button>
+    <button onclick="document.getElementById('updateForm').style.display='block'">
+        Update User
+    </button>
+    <button onclick="document.getElementById('findForm').style.display='block'">
+        Find User
+    </button>
+</div>
+
+<!-- Форма поиска пользователя -->
+<form id="findForm" th:action="@{/admin/search}" method="get">
+    <h3>Find User</h3>
+    <label>Find user by ID:</label>
+    <input type="number" name="id" required min="1" placeholder="Enter user ID">
+    <button type="submit">Search</button>
+    <button type="button" onclick="document.getElementById('findForm').style.display='none'">
+        Cancel
+    </button>
+</form>
+
+<!-- Результаты поиска -->
+<div th:if="${foundUser != null}" class="user-details">
+    <h3>User Details:</h3>
+    <p>ID: <span th:text="${foundUser.id}"></span></p>
+    <p>Username: <span th:text="${foundUser.username}"></span></p>
+    <p>Phone: <span th:text="${foundUser.phone}"></span></p>
+    <p>Sex: <span th:text="${foundUser.sex} ? 'Male' : 'Female'"></span></p>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Gender</th>
+        <th>Phone</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.sex} ? 'Male' : 'Female'"></td>
+        <td th:text="${user.phone}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Форма создания пользователя -->
+<form id="createForm" th:action="@{/admin}" method="post" th:object="${userDTO}">
+    <h3>Create New User</h3>
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" required><br>
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" required><br>
+    <label>Gender:</label>
+    <div class="radio-group">
+        <label>
+            <input type="radio" th:field="*{sex}" value="true"> Male
+        </label>
+        <label>
+            <input type="radio" th:field="*{sex}" value="false"> Female
+        </label>
+    </div>
+    <label>Phone:</label>
+    <input type="number" th:field="*{phone}" required><br>
+    <button type="submit">Save</button>
+    <button type="button" onclick="document.getElementById('createForm').style.display='none'">
+        Cancel
+    </button>
+</form>
+
+<form id="deleteForm" th:action="@{/admin}" method="post">
+    <input type="hidden" name="_method" value="delete" />
+    <h3>Delete User</h3>
+    <label>User ID:</label>
+    <input type="number" name="id" required><br>
+    <button type="submit">Delete</button>
+    <button type="button" onclick="document.getElementById('deleteForm').style.display='none'">
+        Cancel
+    </button>
+</form>
+
+<form id="updateForm" th:action="@{/admin}" method="post" th:object="${userDTO}">
+    <input type="hidden" name="_method" value="put" />
+    <h3>Update User</h3>
+    <label>User ID:</label>
+    <input type="number" name="id" required><br>
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" required><br>
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" required><br>
+    <label>Gender:</label>
+    <div class="radio-group">
+        <label>
+            <input type="radio" th:field="*{sex}" value="true"> Male
+        </label>
+        <label>
+            <input type="radio" th:field="*{sex}" value="false"> Female
+        </label>
+    </div>
+    <label>Phone:</label>
+    <input type="number" th:field="*{phone}" required><br>
+    <button type="submit">Update</button>
+    <button type="button" onclick="document.getElementById('updateForm').style.display='none'">
+        Cancel
+    </button>
+</form>
+
+</body>
+</html>

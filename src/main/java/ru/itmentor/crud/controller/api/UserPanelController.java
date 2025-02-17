@@ -1,4 +1,4 @@
-package ru.itmentor.crud.controller;
+package ru.itmentor.crud.controller.api;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.itmentor.crud.dto.UserDTO;
 
 
-public interface UserController {
+public interface UserPanelController {
     String getAllUsers(Model model);
     String getUserById(@RequestParam(value = "id") Long id, Model model);
     String addUser(@ModelAttribute("userDTO") UserDTO userDTO);

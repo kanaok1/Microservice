@@ -12,5 +12,6 @@ public interface UserService {
     void saveUser(UserDTO userDTO);
     void updateUser(Long userId, UserDTO userDTO);
     void deleteUser(Long userId);
-
+    User findByUsername(String username);
+    User getCurrentUser();
 }
