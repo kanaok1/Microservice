@@ -1,16 +1,15 @@
 package ru.itmentor.crud.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.itmentor.crud.controller.api.UserController;
-import ru.itmentor.crud.model.User;
+import ru.itmentor.crud.dto.response.FindUserResponseDTO;
 import ru.itmentor.crud.service.UserService;
 
-@Controller
-@RequestMapping("/user")
+@RestController
+@RequestMapping("/api/v1/user")
 public class UserControllerImpl implements UserController {
     private final UserService userService;
 
@@ -21,9 +20,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @GetMapping
-    public String getInformationAboutMe(Model model) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user", user);
-        return "user-profile";
+    public FindUserResponseDTO getInformationAboutMe() {
+        return userService.getCurrentUser();
     }
 }

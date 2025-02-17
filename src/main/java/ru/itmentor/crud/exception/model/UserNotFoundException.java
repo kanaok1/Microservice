@@ -1,7 +1,8 @@
 package ru.itmentor.crud.exception.model;
 
 public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(String message) {
-        super(message);
+    private static final String ERROR_MESSAGE = "User not found";
+    public UserNotFoundException() {
+        super(ERROR_MESSAGE);
     }
 }

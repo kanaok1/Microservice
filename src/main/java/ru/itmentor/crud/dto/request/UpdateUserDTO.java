@@ -1,11 +1,9 @@
-package ru.itmentor.crud.dto;
+package ru.itmentor.crud.dto.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class UserDTO {
+@Data
+public class UpdateUserDTO {
     private String username;
     private String password;
     private Boolean sex;

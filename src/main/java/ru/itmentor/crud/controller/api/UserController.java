@@ -1,7 +1,7 @@
 package ru.itmentor.crud.controller.api;
 
-import org.springframework.ui.Model;
+import ru.itmentor.crud.dto.response.FindUserResponseDTO;
 
 public interface UserController {
-    String getInformationAboutMe(Model model);
+    FindUserResponseDTO getInformationAboutMe();
 }
