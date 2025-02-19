@@ -23,11 +23,13 @@ public class AdminServiceImpl implements AdminService {
         this.userMapper = userMapper;
     }
 
+    @Transactional
     @Override
     public List<FindUserResponseDTO> findAllUsers() {
         return userMapper.toDtoFindListFromEntityList(userRepository.findAll());
     }
 
+    @Transactional
     @Override
     public FindUserResponseDTO findUserById(Long userId) {
         return userMapper.toFindUserResponseDTOFromEntity(userRepository.findById(userId).orElseThrow(
@@ -59,6 +61,7 @@ public class AdminServiceImpl implements AdminService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)

@@ -3,6 +3,7 @@ package ru.itmentor.crud.service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itmentor.crud.dto.response.FindUserResponseDTO;
 import ru.itmentor.crud.exception.model.UserNotFoundException;
 import ru.itmentor.crud.mapper.UserMapper;
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    @Transactional
     @Override
     public FindUserResponseDTO getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

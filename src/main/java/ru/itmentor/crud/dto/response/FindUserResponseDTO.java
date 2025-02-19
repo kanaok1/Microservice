@@ -3,7 +3,7 @@ package ru.itmentor.crud.dto.response;
 import lombok.Data;
 import ru.itmentor.crud.model.Role;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class FindUserResponseDTO {
@@ -11,5 +11,5 @@ public class FindUserResponseDTO {
     private String username;
     private String password;
     private Integer phone;
-    private List<Role> roles;
+    private Set<Role> roles;
 }
