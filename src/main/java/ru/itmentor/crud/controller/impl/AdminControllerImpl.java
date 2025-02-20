@@ -4,27 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.itmentor.crud.controller.api.AdminPanelController;
+import ru.itmentor.crud.controller.api.AdminController;
 import ru.itmentor.crud.dto.UserDTO;
 import ru.itmentor.crud.model.User;
-import ru.itmentor.crud.service.UserService;
+import ru.itmentor.crud.service.AdminService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminPanelControllerImpl implements AdminPanelController {
+public class AdminControllerImpl implements AdminController {
 
-    private final UserService userService;
+    private final AdminService adminService;
     private static final String RELOAD = "redirect:/admin";
 
     @Autowired
-    public AdminPanelControllerImpl(UserService userService) {
-        this.userService = userService;
+    public AdminControllerImpl(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @GetMapping
     @Override
     public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.findAllUsers());
+        model.addAttribute("users", adminService.findAllUsers());
         model.addAttribute("userDTO", new UserDTO());
         return "admin";
     }
@@ -32,7 +32,7 @@ public class AdminPanelControllerImpl implements AdminPanelController {
     @GetMapping("/search")
     @Override
     public String getUserById(@RequestParam(value = "id") Long id, Model model) {
-        User user = userService.findUserById(id);
+        User user = adminService.findUserById(id);
         model.addAttribute("foundUser", user);
         return "find-result";
     }
@@ -40,21 +40,21 @@ public class AdminPanelControllerImpl implements AdminPanelController {
     @PostMapping
     @Override
     public String addUser(@ModelAttribute("userDTO") UserDTO userDTO) {
-        userService.saveUser(userDTO);
+        adminService.saveUser(userDTO);
         return RELOAD;
     }
 
     @DeleteMapping
     @Override
     public String deleteUser(@RequestParam("id") Long userId) {
-        userService.deleteUser(userId);
+        adminService.deleteUser(userId);
         return RELOAD;
     }
 
     @PutMapping
     @Override
     public String updateUser(@RequestParam("id") Long userId, @ModelAttribute("user") UserDTO userDTO) {
-        userService.updateUser(userId, userDTO);
+        adminService.updateUser(userId, userDTO);
         return RELOAD;
     }
 }
