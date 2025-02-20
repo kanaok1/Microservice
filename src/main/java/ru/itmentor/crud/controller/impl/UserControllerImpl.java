@@ -21,7 +21,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @GetMapping
-    public String getInformationAboutMe(Model model) {
+    public String getUserInfo(Model model) {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "user-profile";

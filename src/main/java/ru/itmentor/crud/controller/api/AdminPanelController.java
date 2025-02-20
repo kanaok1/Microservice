@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.itmentor.crud.dto.UserDTO;
 
 
-public interface UserPanelController {
+public interface AdminPanelController {
     String getAllUsers(Model model);
     String getUserById(@RequestParam(value = "id") Long id, Model model);
     String addUser(@ModelAttribute("userDTO") UserDTO userDTO);

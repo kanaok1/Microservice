@@ -4,20 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.itmentor.crud.controller.api.UserPanelController;
+import ru.itmentor.crud.controller.api.AdminPanelController;
 import ru.itmentor.crud.dto.UserDTO;
 import ru.itmentor.crud.model.User;
 import ru.itmentor.crud.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
-public class UserPanelControllerImpl implements UserPanelController {
+public class AdminPanelControllerImpl implements AdminPanelController {
 
     private final UserService userService;
     private static final String RELOAD = "redirect:/admin";
 
     @Autowired
-    public UserPanelControllerImpl(UserService userService) {
+    public AdminPanelControllerImpl(UserService userService) {
         this.userService = userService;
     }
 
