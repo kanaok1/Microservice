@@ -23,7 +23,7 @@ public abstract class BaseIntegrationTest {
             .withDefaultPrettyPrinter();
 
     @Autowired
-    protected MockMvc mvc;
+    protected MockMvc mockMvc;
 
     protected MockHttpServletRequestBuilder requestToJson(MockHttpServletRequestBuilder requestBuilder) {
         return requestBuilder
