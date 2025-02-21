@@ -6,7 +6,7 @@ import ru.itmentor.crud.model.Role;
 import java.util.Set;
 
 @Data
-public class FindUserResponseDTO {
+public class FindUserResponse {
     private Long id;
     private String username;
     private String password;

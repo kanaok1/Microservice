@@ -1,10 +1,11 @@
 package ru.itmentor.crud.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itmentor.crud.dto.request.CreateUserDTO;
-import ru.itmentor.crud.dto.request.UpdateUserDTO;
-import ru.itmentor.crud.dto.response.FindUserResponseDTO;
+import ru.itmentor.crud.dto.request.CreateUser;
+import ru.itmentor.crud.dto.request.UpdateUser;
+import ru.itmentor.crud.dto.response.FindUserResponse;
 import ru.itmentor.crud.exception.model.UserNotFoundException;
 import ru.itmentor.crud.mapper.UserMapper;
 import ru.itmentor.crud.model.User;
@@ -17,21 +18,24 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public AdminServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Transactional
     @Override
-    public List<FindUserResponseDTO> findAllUsers() {
+    public List<FindUserResponse> findAllUsers() {
         return userMapper.toDtoFindListFromEntityList(userRepository.findAll());
     }
 
     @Transactional
     @Override
-    public FindUserResponseDTO findUserById(Long userId) {
+    public FindUserResponse findUserById(Long userId) {
         return userMapper.toFindUserResponseDTOFromEntity(userRepository.findById(userId).orElseThrow(
                 UserNotFoundException::new
         ));
@@ -39,8 +43,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void saveUser(CreateUserDTO userDTO) {
-        userRepository.save(userMapper.toEntityFromCreateDto(userDTO));
+    public void saveUser(CreateUser userDTO) {
+        User user = userMapper.toEntityFromCreateDto(userDTO);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
     @Transactional
@@ -53,7 +59,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void updateUser(Long userId, UpdateUserDTO userDTO) {
+    public void updateUser(Long userId, UpdateUser userDTO) {
         User user = userRepository.findById(userId).orElseThrow(
                 UserNotFoundException::new
         );
