@@ -64,6 +64,9 @@ public class AdminServiceImpl implements AdminService {
                 UserNotFoundException::new
         );
         userMapper.updateEntityFromDto(userDTO, user);
+        if (userDTO.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
         userRepository.save(user);
     }
 
